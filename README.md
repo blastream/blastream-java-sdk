@@ -1,6 +1,6 @@
 # blastream-java-sdk
 
-All URIs are relative to *https://api.v2.blastream.com/api-docs*
+All URIs are relative to *https://api.v2.blastream.com/api-docs*  
 This is also where you can find all parameters related to params variable
 
 ### Examples
