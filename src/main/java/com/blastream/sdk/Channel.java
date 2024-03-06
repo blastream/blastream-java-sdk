@@ -448,7 +448,7 @@ public class Channel extends Instance{
 	 * @throws ParseException
 	 * @throws URISyntaxException
 	 */
-	public JSONObject uploadPic(String name, String filePath) throws IOException, InterruptedException, ParseException, URISyntaxException {
+	public JSONObject uploadPic(String filePath) throws IOException, InterruptedException, ParseException, URISyntaxException {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpPost uploadFile = new HttpPost(this.request_url+ "/broadcaster/upload/pic");
 		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -554,10 +554,10 @@ public class Channel extends Instance{
         data.put("service", "rtmp");
 
         if(params.containsKey("rtmp_username"))
-            data.put("rtmp_username", data.get("rtmp_username"));
+            data.put("rtmp_username", params.get("rtmp_username"));
 
         if(params.containsKey("rtmp_password"))
-            data.put("rtmp_password", data.get("rtmp_password"));
+            data.put("rtmp_password", params.get("rtmp_password"));
 
         return this.put("/simulcast", data);
     }
