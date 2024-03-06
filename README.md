@@ -5,6 +5,11 @@ This is also where you can find all parameters related to params variable
 
 ### Examples
 ```java
+import com.blastream.sdk.Instance;
+import com.blastream.sdk.Channel;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 String publicKey = "XXXXXXXXXXXXXX";
 String privateKey = "YYYYYYYYYYYYY";
 
