@@ -284,7 +284,7 @@ public class Instance {
 	 * @param params parameters of the Iframe
 	 * @return
 	 */
-	public String getIframe(String width, String height, JSONObject params ) {
+	public String getIframe(String width, String height, JSONObject params) {
 		String url;
 		if(!params.containsKey("url")) {
 			url = this.getUrl();

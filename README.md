@@ -7,6 +7,7 @@ This is also where you can find all parameters related to params variable
 ```java
 import com.blastream.sdk.Instance;
 import com.blastream.sdk.Channel;
+import com.blastream.sdk.Collaborator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -42,8 +43,8 @@ catch(Exception e) {
 instance = new Instance(publicKey, privateKey, "");
 try {
 	Channel channel = instance.createOrGetChannel("ma-room-java", new JSONObject());
-	channel.createOrGetCollaborator("Speaker Name", "speaker", new JSONObject()); 
-	String iframeColab = channel.getIframe("600", "400", new JSONObject());
+	Collaborator collab = channel.createOrGetCollaborator("Speaker Name", "speaker", new JSONObject()); 
+    String iframeColab = collab.getIframe("600", "400", new JSONObject());
 	System.out.println(iframeColab);
 }
 catch(Exception e) {

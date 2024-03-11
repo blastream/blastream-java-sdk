@@ -231,13 +231,13 @@ public class Channel extends Instance{
 		    JSONObject collab = (JSONObject) parse.parse(collabs.get(i).toString());
 		    if ((collab.get("displayname").toString().equals(displayname) && (collab.get("status").toString().equals(status)))) {
 		    	this.setToken(collab.get("token").toString());
-		    	super.setToken(collab.get("token").toString());
+		    	//super.setToken(collab.get("token").toString());
 		    	this.setChannelUrl(collab.get("invite_link").toString());
 		    	super.setChannelUrl(collab.get("invite_link").toString());
 				return new Collaborator(collab, this);
 			}
 		}
-		
+		 
 		return this.createCollaborator(displayname, status, params);
 	}
 	

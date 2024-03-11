@@ -15,6 +15,11 @@ public class Collaborator {
 		this.instance = instance;
 	}
 
+	public String getIframe(String width, String height, JSONObject params) {
+        params.put("url", this.data.get("invite_link") + "?api=" + this.instance.getPublicKey());
+        return this.instance.getIframe(width, height, params);
+    }
+
 	public String getDisplayname() {
 		return this.data.get("displayname").toString();
 	}
