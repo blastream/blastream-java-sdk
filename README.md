@@ -17,7 +17,7 @@ String privateKey = "YYYYYYYYYYYYY";
 //Create a simulcast target
 Instance instance = new Instance(publicKey, privateKey, "");
 try {
-	Channel channel = instance.createOrGetChannel("ma-room-java", new JSONObject());
+	Channel channel = instance.createOrGetChannel("ma-room-java2", new JSONObject());
 	JSONObject simulcastParams = new JSONObject();
 	simulcastParams.put("rtmp_username", "username");
 	simulcastParams.put("rtmp_password", "pass");
@@ -31,7 +31,7 @@ catch(Exception e) {
 //Create or get a room with admin link
 instance = new Instance(publicKey, privateKey, ""); 
 try {
-	Channel channel = instance.createOrGetChannel("ma-room-java", new JSONObject());
+	Channel channel = instance.createOrGetChannel("ma-room-java2", new JSONObject());
 	String iframe = instance.getIframe("600", "400", new JSONObject());
 	System.out.println(iframe);
 }
@@ -42,7 +42,7 @@ catch(Exception e) {
 //Create or get a room with speaker link
 instance = new Instance(publicKey, privateKey, "");
 try {
-	Channel channel = instance.createOrGetChannel("ma-room-java", new JSONObject());
+	Channel channel = instance.createOrGetChannel("ma-room-java2", new JSONObject());
 	Collaborator collab = channel.createOrGetCollaborator("Speaker Name", "speaker", new JSONObject()); 
     String iframeColab = collab.getIframe("600", "400", new JSONObject());
 	System.out.println(iframeColab);
@@ -54,7 +54,7 @@ catch(Exception e) {
 //Create or get a participant
 instance = new Instance(publicKey, privateKey, "");
 try {
-	Channel channel = instance.createOrGetParticipant("ma-room-java", "participant-username", new JSONObject());            
+	Channel channel = instance.createOrGetParticipant("ma-room-java2", "participant-username2", new JSONObject());            
 	String iframeParticipant = channel.getIframe("600", "400", new JSONObject());
 	System.out.println(iframeParticipant);
 }
@@ -65,7 +65,7 @@ catch(Exception e) {
 //Update design of channel
 instance = new Instance(publicKey, privateKey, "");
 try {
-	Channel channel = instance.createOrGetChannel("ma-room-java", new JSONObject());
+	Channel channel = instance.createOrGetChannel("ma-room-java2", new JSONObject());
 	JSONObject picInfo = channel.uploadPic("/home/ubuntu/test.jpg");
 	JSONArray colors = new JSONArray();
 	colors.add("#ff0000");

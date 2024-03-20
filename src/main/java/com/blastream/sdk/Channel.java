@@ -24,7 +24,8 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 
 public class Channel extends Instance{
-	private String request_url;
+	
+	/*private String request_url;
 	private String app_url;
 	private String slug;
 	private String public_key;
@@ -35,8 +36,11 @@ public class Channel extends Instance{
 	private Integer embed;
 	private String whitelabel_url;
 	private Boolean is_channel;
+	
+	protected Boolean is_channel = true;*/
+
 	private String id;
-    private String apiPrefix;
+	private String apiPrefix;
 	
 	private Channel channel;
 	/**
@@ -80,13 +84,13 @@ public class Channel extends Instance{
 		this.channel_url = url;
 	}
 
-	public String getChannelUrl() {
+	/*public String getChannelUrl() {
 		return this.channel_url;
 	}
 	
 	public void setSlug(String slug) {
 		this.slug = slug;
-	}
+	}*/
 	
 	public Channel getChannel() {
 		return this.channel;
@@ -484,7 +488,7 @@ public class Channel extends Instance{
 	 * @throws URISyntaxException
 	 */
 	public JSONObject uploadScenePic(String name, String filePath) throws IOException, InterruptedException, ParseException, URISyntaxException {
-		JSONObject response = this.uploadPic(name, filePath);
+		JSONObject response = this.uploadPic(filePath);
 		response.put("file", "./docs" + response.get("file"));
 		return response;
 	}

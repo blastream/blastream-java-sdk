@@ -17,17 +17,17 @@ import java.util.regex.Pattern;
 
 public class Instance {
 
-	private String request_url;
-	private String app_url;
-	private String slug;
-	private String public_key;
-	private String private_key;
-	private String APIToken;
-	private String token;
-	private String channel_url;
-	private Integer embed;
-	private String whitelabel_url;
-	private Boolean is_channel;
+	protected String request_url;
+	protected String app_url;
+	protected String slug;
+	protected String public_key;
+	protected String private_key;
+	protected String APIToken;
+	protected String token;
+	protected String channel_url;
+	protected Integer embed;
+	protected String whitelabel_url;
+	protected Boolean is_channel = false;
 	/**
 	 * Constructeur de la class Instance
 	 * @param public_key clé publique
@@ -174,7 +174,7 @@ public class Instance {
 			if (slug.length() > 64 || slug.length()<2) {
 				System.out.println("Slug is either too long or too short");
 			}else {
-				this.slug = slug;
+				this.slug = slug.toLowerCase();
 			}
 		}
 	}
@@ -221,6 +221,7 @@ public class Instance {
 	public Channel initChannel(JSONObject result) {
 		Channel channel = new Channel(this.public_key,this.private_key, this.whitelabel_url);
 		channel.setRequestUrl(this.request_url);
+		//System.out.println("initChannel" + this.slug);
 		channel.setSlug(this.slug);
 		channel.setResponseToken(result);
 		channel.setId(result.get("id").toString());
