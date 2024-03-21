@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+@SuppressWarnings("unchecked")
 public class Collaborator {
 
 	private Instance instance;

@@ -5,3 +5,6 @@ target/maven-status
 target/surefire-reports
 target/test-classes
 .vscode
+.settings
+.DS_Store
+/target/

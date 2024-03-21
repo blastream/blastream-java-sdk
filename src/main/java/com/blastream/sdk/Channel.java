@@ -8,6 +8,12 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -15,34 +21,18 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
-public class Channel extends Instance{
-	
-	/*private String request_url;
-	private String app_url;
-	private String slug;
-	private String public_key;
-	private String private_key;
-	private String token;
-	private String APIToken;
-	private String channel_url;
-	private Integer embed;
-	private String whitelabel_url;
-	private Boolean is_channel;
-	
-	protected Boolean is_channel = true;*/
+@SuppressWarnings("unchecked")
+public class Channel extends Instance {
+
+	static final Logger logger = LoggerFactory.getLogger(Channel.class);
 
 	private String id;
 	private String apiPrefix;
-	
-	private Channel channel;
+
 	/**
 	 * Constructor of Chanel class
 	 * @param public_key
@@ -51,55 +41,10 @@ public class Channel extends Instance{
 	 */
 	public Channel(String public_key, String private_key, String custom_domain) {
 		super(public_key, private_key, custom_domain);
-		this.request_url = "https://api.v2.blastream.com";
-		this.app_url = "app.v2.blastream.com";
-		this.embed = 1;
-		this.token = "";
-		this.APIToken = "";
-		this.public_key = public_key;
-		this.private_key = private_key;
         this.apiPrefix = "";
-		if (custom_domain != "") {
-			this.whitelabel_url = custom_domain;
-		} else {
-			this.whitelabel_url = "";
-		}
-		this.is_channel = true;
-		
-	}
-	
-	public void setToken(String token) {
-		this.token = token;
-	}
-	
-	public void setAPIToken(String token) {
-		this.APIToken = token;
-	}
-	
-	public String getAPIToken() {
-		return this.APIToken;
-	}
-	
-	public void setChannelUrl(String url) {
-		this.channel_url = url;
+		this.isChannel = true;
 	}
 
-	/*public String getChannelUrl() {
-		return this.channel_url;
-	}
-	
-	public void setSlug(String slug) {
-		this.slug = slug;
-	}*/
-	
-	public Channel getChannel() {
-		return this.channel;
-	}
-
-	public void setChannel(Channel channel) {
-		this.channel = channel;
-	}
-	
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -135,6 +80,7 @@ public class Channel extends Instance{
 	public JSONObject createOrRefreshSpeakersToken(JSONObject params) throws IOException, ParseException, InterruptedException {
 		return this.post("/channel/speakers-token",params);
 	}
+	
 	/**
 	 *Remove speakers token 
 	 */
@@ -197,8 +143,8 @@ public class Channel extends Instance{
 		if (type == "") {
 			HttpRequest request = HttpRequest.newBuilder()
 	                .GET()
-	                .uri(URI.create(this.request_url + "/channel/collaborators"))
-	                .setHeader("X-Api-Public", this.public_key).setHeader("X-Api-Private", this.private_key).setHeader("X-Auth-Token",this.getAPIToken())
+	                .uri(URI.create(this.requestUrl + "/channel/collaborators"))
+	                .setHeader("X-Api-Public", this.publicKey).setHeader("X-Api-Private", this.privateKey).setHeader("X-Auth-Token",this.getAPIToken())
 	                .build();
 			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 			
@@ -208,8 +154,8 @@ public class Channel extends Instance{
 		}else {
 			HttpRequest request = HttpRequest.newBuilder()
 	                .GET()
-	                .uri(URI.create(this.request_url + "/channel/collaborators" + type))
-	                .setHeader("X-Api-Public", this.public_key).setHeader("X-Api-Private", this.private_key).setHeader("X-Auth-Token",this.getAPIToken())
+	                .uri(URI.create(this.requestUrl + "/channel/collaborators" + type))
+	                .setHeader("X-Api-Public", this.publicKey).setHeader("X-Api-Private", this.privateKey).setHeader("X-Auth-Token",this.getAPIToken())
 	                .build();
 			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 			
@@ -337,13 +283,13 @@ public class Channel extends Instance{
 	 * @throws InterruptedException
 	 */
 	public JSONObject sendMessage(JSONObject params) throws IOException, ParseException, InterruptedException {
-		this.is_channel = false;
+		this.isChannel = false;
 		JSONObject data = new JSONObject();
 		data.put("msg", params.get("msg"));
 		data.put("username", params.get("username"));
 		data.put("slug", this.slug);
 		JSONObject result = this.post("/api/msg", data);
-		this.is_channel = true;
+		this.isChannel = true;
 		return result;
 	}
 	/**
@@ -394,9 +340,9 @@ public class Channel extends Instance{
 	 * @throws InterruptedException
 	 */
 	public JSONObject remove() throws IOException, ParseException, InterruptedException {
-		this.is_channel = false;
+		this.isChannel = false;
 		JSONObject result = this.delete("/space/" + this.slug);
-		this.is_channel = true;
+		this.isChannel = true;
 		return result;
 	}
 	
@@ -430,8 +376,8 @@ public class Channel extends Instance{
 		
 		HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(this.request_url + "/channel/scenes"))
-                .setHeader("X-Api-Public", this.public_key).setHeader("X-Api-Private", this.private_key).setHeader("X-Auth-Token", this.getAPIToken())
+                .uri(URI.create(this.requestUrl + "/channel/scenes"))
+                .setHeader("X-Api-Public", this.publicKey).setHeader("X-Api-Private", this.privateKey).setHeader("X-Auth-Token", this.getAPIToken())
                 .build();
 		HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 		
@@ -444,7 +390,6 @@ public class Channel extends Instance{
 	}
 	/**
 	 * Upload a picture
-	 * @param name picture name
 	 * @param filePath path of the file
 	 * @return a file path
 	 * @throws IOException
@@ -454,7 +399,7 @@ public class Channel extends Instance{
 	 */
 	public JSONObject uploadPic(String filePath) throws IOException, InterruptedException, ParseException, URISyntaxException {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
-		HttpPost uploadFile = new HttpPost(this.request_url+ "/broadcaster/upload/pic");
+		HttpPost uploadFile = new HttpPost(this.requestUrl+ "/broadcaster/upload/pic");
 		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 		builder.addTextBody("X-Auth-Token",this.getAPIToken());
 		
@@ -469,7 +414,6 @@ public class Channel extends Instance{
 		uploadFile.setEntity(multipart);
 		uploadFile.addHeader("X-Auth-Token",this.getAPIToken());
 		CloseableHttpResponse response = httpClient.execute(uploadFile);
-		HttpEntity responseEntity = response.getEntity();		
 		
 		String jsonString = EntityUtils.toString(response.getEntity());		
 		JSONObject params = new JSONObject();
@@ -487,7 +431,7 @@ public class Channel extends Instance{
 	 * @throws ParseException
 	 * @throws URISyntaxException
 	 */
-	public JSONObject uploadScenePic(String name, String filePath) throws IOException, InterruptedException, ParseException, URISyntaxException {
+	public JSONObject uploadScenePic(String filePath) throws IOException, InterruptedException, ParseException, URISyntaxException {
 		JSONObject response = this.uploadPic(filePath);
 		response.put("file", "./docs" + response.get("file"));
 		return response;
