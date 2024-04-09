@@ -3,7 +3,7 @@
 	<groupId>com.blastream.sdk</groupId>
 	<artifactId>blastream-java-sdk</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.2</version>
+	<version>0.1.4</version>
 	<name>BlastreamJavaSdk</name>
 	<url>http://maven.apache.org</url>
 	<build>
